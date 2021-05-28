@@ -3,7 +3,7 @@ package entidades;
 import java.util.Scanner;
 
 public class contaVip implements Conta{
-	double limite = 5000;
+	private double limiteDeEmprestimo = 5000;
 	double saque, deposito, emprestimo, saldo;
 	
 	public contaVip() {
@@ -15,7 +15,7 @@ public class contaVip implements Conta{
 		Scanner entrada = new Scanner(System.in);
 		
 		do {
-			System.out.println("Bem-vindo, Cliente VIP");
+			System.out.println("\nBem-vindo, Cliente VIP");
 			System.out.println("\n1 - Saque");
 			System.out.println("\n2 - Depósito");
 			System.out.println("\n3 - Empréstimo");
@@ -45,15 +45,14 @@ public class contaVip implements Conta{
                 break;
                 
                 default:
-                	break;
-                
+                	break; 
 			}
 		}while(op>0 && op<4);
 	}
 	
 	@Override
 	public void sacar(double valorAsacar) {
-		if(valorAsacar > (saldo+limite)) {
+		if(valorAsacar > (saldo+this.limiteDeEmprestimo)) {
 			System.out.println("Saldo insuficiente");
 		}else {
 			saldo -= valorAsacar;
@@ -67,12 +66,12 @@ public class contaVip implements Conta{
 	}
 	
 	public void fazerEmprestimo(double valorAemprestar) {
-		if(valorAemprestar <= limite) {
+		if(valorAemprestar <= this.limiteDeEmprestimo) {
 			emprestimo = valorAemprestar;
-			limite -= valorAemprestar;
-			System.out.println("Limite de empréstimo disponível após operação: "+limite);
+			this.limiteDeEmprestimo -= valorAemprestar;
+			System.out.println("Limite de empréstimo disponível após operação: "+this.limiteDeEmprestimo);
 		}else {
-			if(valorAemprestar > limite) {
+			if(valorAemprestar >this.limiteDeEmprestimo) {
 				System.out.println("Limite excedido");
 			}else {
 				System.out.println("O limite já foi utilizado");
@@ -85,5 +84,11 @@ public class contaVip implements Conta{
 		return new contaVip(this);
 	}
 
-}
+	public double getLimiteDeEmprestimo() {
+		return limiteDeEmprestimo;
+	}
 
+	public void setLimiteDeEmprestimo(double limiteDeEmprestimo) {
+		this.limiteDeEmprestimo = limiteDeEmprestimo;
+	}
+}
